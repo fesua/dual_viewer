@@ -18,25 +18,24 @@ A side-by-side 3D Gaussian Splatting viewer built on [gsplat](https://github.com
 
 ## Alignment in action
 
-Two models trained on different COLMAP reconstructions live in different world coordinate systems. The viewer brings them into a shared frame in two stages — a Procrustes initialization, then a photometric refinement on top. The clips below show why both stages matter.
+Two models reconstructed from COLMAP at **different resolutions** end up in different world coordinate systems. The viewer brings them into a shared frame in two stages — a Procrustes initialization, then a photometric refinement on top. The clips below show why both stages matter.
 
-### 1. No alignment
+> In every clip, **left = COLMAP run at 1/8 resolution**, **right = COLMAP run at 1/2 resolution**.
 
-Each model is rendered in its own original coordinate system. The two views drift apart and nothing lines up.
+<table>
+  <tr>
+    <td width="33%" align="center"><b>1. Before alignment</b></td>
+    <td width="33%" align="center"><b>2. Coarse align</b></td>
+    <td width="33%" align="center"><b>3. Fine align</b></td>
+  </tr>
+  <tr>
+    <td><video src="https://github.com/user-attachments/assets/1c48c244-b642-40de-9962-23097f5f2d27" autoplay loop muted playsinline width="100%"></video></td>
+    <td><video src="https://github.com/user-attachments/assets/bc954a9e-59e8-40c4-8902-adc819f8b14e" autoplay loop muted playsinline width="100%"></video></td>
+    <td><video src="https://github.com/user-attachments/assets/17212482-7096-4eb6-b8a8-3fd00e05f7d9" autoplay loop muted playsinline width="100%"></video></td>
+  </tr>
+</table>
 
-https://github.com/user-attachments/assets/342ac9e0-ea6c-495d-99ab-ec4b343d0817
-
-### 2. Procrustes only · `--refine 0`
-
-SVD alignment from corresponding camera positions recovers the global pose, but residual scale and rotation error remains.
-
-https://github.com/user-attachments/assets/03b48343-7175-433e-b04c-78cdb1b3c945
-
-### 3. + Photometric refinement · *(default)*
-
-A Sim(3) residual optimized directly against the rendered images closes the gap — the two models now track together pixel-for-pixel.
-
-https://github.com/user-attachments/assets/30a2d39c-e892-4c03-b0ed-29855242eecc
+Models in their original coordinate systems drift apart (1). Procrustes recovers the global pose but leaves residual scale/rotation error (2). The photometric refinement closes the gap so the two track together pixel-for-pixel (3).
 
 ## Features
 
